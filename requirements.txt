@@ -1,0 +1,4 @@
+﻿networkx>=3.2
+PyYAML>=6.0
+numpy>=1.26
+pytest>=8.0

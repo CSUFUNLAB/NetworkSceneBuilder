@@ -1,0 +1,24 @@
+# Ignore everything by default; keep only source code and example assets.
+/*
+
+# Keep repo metadata and top-level docs needed for usage.
+!/.gitignore
+!/README.md
+!/requirements.txt
+
+# Keep source code.
+!/network_scene_generator/
+!/network_scene_generator/**
+!/tests/
+!/tests/**
+
+# Keep example configs and example topology assets.
+!/configs/
+!/configs/**
+
+# Ignore generated outputs and caches anywhere in the repo.
+generated_scenes/
+.pytest_cache/
+__pycache__/
+*.py[cod]
+=
