@@ -4,7 +4,7 @@
 
 本项目是一个可复现的网络场景生成器，用来根据拓扑与配置批量生成网络实验场景。它会输出节点、链路、网卡、路由矩阵与流量等结构化文件，但本身不是仿真器，不直接计算丢包率、时延、抖动、吞吐等运行态性能指标。
 
-它的典型用途是作为上游场景生产工具，与 `ns-3` 等网络仿真器对接：先用本项目生成场景文件，再将这些文件转换或接入仿真器运行，从而获得性能数据。这样的工作流适合做数据集构建、协议评估、参数扫描、压力测试和批量自动化实验。
+它的典型用途是作为上游场景生产工具，与 `ns-3` 等网络仿真器对接：先用本项目生成场景文件，再将这些文件转换或接入仿真器运行，从而获得性能数据。这样的工作流适合做数据集构建、协议评估sl、参数扫描、压力测试和批量自动化实验。
 
 ## 支持配置
 
@@ -31,13 +31,13 @@ pip install -r requirements.txt
 ## 运行
 
 ```bash
-python -m network_scene_generator --config configs/example.yaml
+python main.py --config configs/example.yaml
 ```
 
 也支持显式写成：
 
 ```bash
-python -m network_scene_generator generate --config configs/example.yaml
+python main.py generate --config configs/example.yaml
 ```
 
 ## 清理输出
@@ -45,7 +45,7 @@ python -m network_scene_generator generate --config configs/example.yaml
 清除某个配置对应 `output_root` 下的所有已生成场景目录：
 
 ```bash
-python -m network_scene_generator clean --config configs/example.yaml
+python main.py clean --config configs/example.yaml
 ```
 
 `clean` 只会删除看起来像场景输出的目录，不会删除同目录下其它无关文件或文件夹。
