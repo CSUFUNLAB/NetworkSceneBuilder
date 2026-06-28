@@ -1,0 +1,1 @@
+"""Network scene generator package."""

@@ -75,7 +75,8 @@ def test_traffic_can_return_generation_metadata() -> None:
     assert metadata["traffic_matrix"]["active_rule"]["uniform_range_mbps"] == [5.0, 5.0]
     assert metadata["traffic_matrix"]["flow_sampling"] == {
         "available_flow_pairs": 2,
-        "requested_flow_count_range": None,
+        "requested_flow_ratio_range": None,
+        "selected_flow_ratio": 1.0,
         "selected_flow_count": 2,
         "effective_flow_count": 2,
         "sampled": False,
@@ -88,12 +89,12 @@ class _SampledTrafficConfig:
     traffic_matrix = {
         "mode_probabilities": {"uniform": 1.0},
         "uniform_range_mbps": [5.0, 5.0],
-        "flow_count_range": [3, 3],
+        "flow_count_range": [0.5, 0.5],
     }
     flow_feature = _Config.flow_feature
 
 
-def test_traffic_can_sample_a_configured_number_of_flow_pairs() -> None:
+def test_traffic_can_sample_a_configured_ratio_of_flow_pairs() -> None:
     graph = nx.Graph()
     graph.add_nodes_from(["A", "B", "C"])
 
@@ -104,7 +105,8 @@ def test_traffic_can_sample_a_configured_number_of_flow_pairs() -> None:
     assert [row["flow_id"] for row in rows] == ["F000001", "F000002", "F000003"]
     assert metadata["traffic_matrix"]["flow_sampling"] == {
         "available_flow_pairs": 6,
-        "requested_flow_count_range": [3, 3],
+        "requested_flow_ratio_range": [0.5, 0.5],
+        "selected_flow_ratio": 0.5,
         "selected_flow_count": 3,
         "effective_flow_count": 3,
         "sampled": True,
@@ -115,18 +117,20 @@ class _SampledTrafficRangeConfig:
     traffic_matrix = {
         "mode_probabilities": {"uniform": 1.0},
         "uniform_range_mbps": [5.0, 5.0],
-        "flow_count_range": [2, 4],
+        "flow_count_range": [0.3, 0.7],
     }
     flow_feature = _Config.flow_feature
 
 
-def test_traffic_randomizes_flow_count_within_configured_range() -> None:
+def test_traffic_randomizes_flow_ratio_within_configured_range() -> None:
     graph = nx.Graph()
     graph.add_nodes_from(["A", "B", "C"])
 
     rows, metadata = generate_traffic(graph, _SampledTrafficRangeConfig(), RandomManager(8), include_metadata=True)
 
+    selected_ratio = metadata["traffic_matrix"]["flow_sampling"]["selected_flow_ratio"]
     selected_count = metadata["traffic_matrix"]["flow_sampling"]["selected_flow_count"]
+    assert 0.3 <= selected_ratio <= 0.7
     assert 2 <= selected_count <= 4
     assert len(rows) == selected_count
 

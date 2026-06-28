@@ -104,7 +104,7 @@ routing:
   weight_range: [1.0, 10.0]
 
 traffic_matrix:
-  flow_count_range: [50, 100]
+  flow_count_range: [0.1, 0.25]
   mode_probabilities:
     uniform: 0.25
     exponential: 0.25

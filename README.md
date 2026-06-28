@@ -84,7 +84,7 @@ python main.py clean --config configs/example.yaml
 - 网卡 IP 按链路随机分配不重叠子网：每条链路使用一个独立子网，两端网卡地址都落在该链路子网内；基础地址池与子网前缀都可配置概率。
 - 路由固定使用 `weighted_shortest_path`：先为每条链路随机生成权重，再按权重计算最短路径；不再提供其它路由生成模式。
 - 流量矩阵模型在每个场景开始时按 `traffic_matrix.mode_probabilities` 随机选一种；默认随机池为 `uniform` / `exponential` / `gravity` / `spike`。
-- 可通过 `traffic_matrix.flow_count_range` 指定每个场景随机采样生成多少条 OD 流；不配置时生成所有有序节点对。
+- 可通过 `traffic_matrix.flow_count_range` 指定每个场景在全部有序节点对中随机采样的比例范围，例如 `[0.1, 0.25]` 表示随机选择 10% 到 25% 的节点对生成流量；不配置时生成所有有序节点对。
 - 流量特征模型支持两种整体模式：`mixed`（混合）或 `single`（单一类型），并可按概率随机选择本场景使用哪一种模式。
 - `nodes.csv` 额外输出节点位置信息：若拓扑中有经纬度则写入，无则留空。
 - `routing_matrix.csv` 不写表头和行索引。
@@ -128,7 +128,7 @@ python main.py clean --config configs/example.yaml
 
 - 当前场景实际选中的流量矩阵模型，如 `uniform` / `exponential` / `gravity` / `spike`
 - 该模型对应的实际规则参数 `active_rule`
-- `flow_sampling`，记录可选 OD 对数量、请求数量范围、本场景抽到的目标数量和实际生成数量
+- `flow_sampling`，记录可选 OD 对数量、请求比例范围、本场景抽到的比例、折算出的目标数量和实际生成数量
 
 其中 `generation.nics` 与 `generation.flow_feature` 只记录当前场景实际选中的模式，以及该模式对应的 `active_rule`。
 

@@ -7,8 +7,8 @@
 !/requirements.txt
 
 # Keep source code.
-!/network_scene_generator/
-!/network_scene_generator/**
+!/scene_generator/
+!/scene_generator/**
 !/tests/
 !/tests/**
 
